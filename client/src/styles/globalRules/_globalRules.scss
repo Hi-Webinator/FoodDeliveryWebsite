@@ -1,0 +1,35 @@
+@use '../variables' as *;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: $color-body-bg;
+  color: $color-text;
+  font-family: $font-family-base;
+}
+
+// Honour the reduced-motion preference across every animated surface.
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html {
+  // Smooth-scroll nav links in the navbar rely on this.
+  scroll-behavior: smooth;
+}
+
+// Offset anchored sections so the sticky navbar never covers their heading.
+section[id] {
+  scroll-margin-top: 90px;
+}

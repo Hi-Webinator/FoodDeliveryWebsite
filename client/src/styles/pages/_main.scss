@@ -1,0 +1,24 @@
+@use '../variables' as *;
+
+.navbar {
+  .navbar-toggler {
+    border: none;
+    &:focus {
+      box-shadow: none;
+    }
+  }
+  .collapse {
+    form {
+      .login {
+        &:active {
+          border-color: transparent;
+          opacity: 0.8;
+        }
+      }
+      .sign {
+        color: $color-white;
+        background-color: $color-primary-dark;
+      }
+    }
+  }
+}

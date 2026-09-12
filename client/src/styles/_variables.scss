@@ -1,0 +1,317 @@
+// =============================================================================
+// DESIGN AUDIT — the brief this design system was written against
+// =============================================================================
+//
+// COMPONENT MAP (client/src/components)
+//   Navbar/        Navbar (sticky bar, Bootstrap collapse), NavLinks (smooth-
+//                  scroll buttons + active state), CartButton (emoji + badge),
+//                  useActiveSection (IntersectionObserver)
+//   Hero/          Hero — headline, subtitle, location input + CTA, store
+//                  badges, rider illustration
+//   Menu/          Menu (section shell + loading/error/empty switch),
+//                  CategoryShowcase (decorative category collage + quote),
+//                  MenuFilters (category chips), MenuGrid, MenuState
+//   MenuCard/      MenuCard — image, category + rating chips, name,
+//                  description, price, add-to-cart with count
+//   HowItWorks/    three numbered steps rendered with the shared Box
+//   Testimonials/  Swiper carousel of TestimonialCard (quote, author, role)
+//   Cart/          CartSidebar (drawer, alerts, totals), CartItem (stepper),
+//                  OrderForm (react-hook-form delivery details)
+//   Footer/        Newsletter band, Footer (logo, badges, 4 link columns,
+//                  legal row), FooterLinkList
+//   shared/        Btn (pill, inline bg), Box (icon card, inline radius),
+//                  Download (store pill), SectionHeading (title + subtitle)
+//   Auth/          Login / Sign + Form/* — present but not rendered by App
+//
+// COLOR PALETTE IN USE
+//   Brand     #ff5331 (CTA red) · #e94339 (second red, navbar CTA)
+//             #009b00 (green accent) · #3a5b22 (dark green submit)
+//   Text      #191720 · #111111 · #323232 · #090909 (footer bg / ink)
+//   Greys     #afafaf · #abacb4 · #d9d9d9 · #dddddd · #eeeeee
+//   Surfaces  #ffffff · #fafafa · #f6f6f6 · #f4f4f4 · #ffefec (tint)
+//   Alpha     rgba(9,9,9,.06/.12/.18/.45) · rgba(255,255,255,.28)
+//             rgba(0,155,0,.1)
+//   Leaks     '#ff5331' / '#e94339' / '#fff' inline in Btn callers,
+//             #000 !important in Swiper overrides, Bootstrap text-black-50 /
+//             text-white-50 / text-light utilities
+//
+// TYPOGRAPHY
+//   Family    Bootstrap system-ui stack, no brand typeface
+//   Sizes     11 / 14 / 16 / 18 / 20px tokens + hero 2.25rem→3.25rem, mixed
+//             with Bootstrap fs-1…fs-6 (2.5rem…1rem) and 2.5rem state icons
+//   Weights   400 / 600 / 700 — `fw-bold` applied to nearly all copy
+//   Leading   1.2 (hero) · Bootstrap lh-base 1.5 · no letter-spacing
+//
+// SPACING
+//   Tokens    $space-1…5 = .25 / .5 / 1 / 1.5 / 3rem (Bootstrap scale)
+//   Markup    m*/p* utilities; section rhythm is only `mt-5 mb-5` (3rem)
+//   Magic     23px swiper padding, 2px/5px chip padding, 90px scroll offset,
+//             28/36/42/44/64px control sizes, 320px skeleton, 420px drawer
+//
+// RADIUS · SHADOW · MOTION
+//   Radius    10px · 16px · 50rem pill · 50% — Box also takes inline radius
+//   Shadow    0 4px 18px / 0 10px 28px card pair + one-off drawer shadow
+//   Motion    .4s ease (hover), .2s ease (fast); keyframes pulse, slide-in,
+//             fade-in; hovers are mostly flat opacity: .8 / .7
+//
+// BOOTSTRAP USAGE
+//   react-bootstrap is installed but never imported. Only Bootstrap 5 CSS is
+//   used: container/row/col-*, navbar + navbar-expand-lg + collapse +
+//   navbar-toggler (driven by bootstrap.bundle via data-bs-*), input-group,
+//   form-control, btn, rounded-pill, visually-hidden, and d-/fs-/fw-/m-/p-/
+//   text- utilities.
+//
+// CLASS NAMING
+//   Two systems side by side: legacy global partials in styles/pages with
+//   nested lower/camel/PascalCase selectors (.hero .lft .subTitle, .menuBox,
+//   .Mbutton, .Testimonial) and CSS modules with BEM (block__el--modifier).
+//
+// WHAT WORKS
+//   + One recognisable tomato-red brand color
+//   + The CSS-module + BEM layer is tidy and tokens already exist
+//   + Card lift + image zoom on hover, reduced-motion is honoured
+//   + Good a11y groundwork: labels, aria-pressed, aria-current, focus trap
+//
+// WHAT FEELS WEAK
+//   - Two competing reds chosen per call site through inline styles
+//   - Six near-identical cool greys with no hierarchy, clashing with the
+//     warm brand; no semantic success/error palette
+//   - No type scale: Bootstrap fs-* and raw px mixed; bold everywhere
+//     flattens hierarchy; several <h1>s on one page
+//   - 3rem section rhythm feels cramped; hero is not full-height and flat
+//   - Hovers are opacity fades; pills and chips have no focus-visible state
+//   - Swiper controls restyled with global !important overrides
+//   - Emoji (cart, rating, close) mixed with PNG icons — no icon language
+//   - Skeleton is a single flat block; only two elevation levels
+//   - 0.4s linear-ish easing makes interactions feel sluggish
+//
+// DIRECTION
+//   Warm "kitchen" palette (tomato + saffron + basil on cream), one
+//   typeface with a real scale, a 4px spacing grid, warm-tinted elevation,
+//   and quick ease-out motion. Every value below is used via tokens only.
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// Color — primary (tomato). #ff5331 is kept as the brand anchor.
+// -----------------------------------------------------------------------------
+$color-primary-50: #fff5f2;
+$color-primary-100: #ffe6de;
+$color-primary-200: #ffc9b8;
+$color-primary-light: #ff7a5c;
+$color-primary: #ff5331;
+$color-primary-dark: #e23d1c;
+$color-primary-darker: #b52e12;
+
+// -----------------------------------------------------------------------------
+// Color — secondary (saffron): stars, highlights, warm glow
+// -----------------------------------------------------------------------------
+$color-secondary-light: #fff1d1;
+$color-secondary: #ffb020;
+$color-secondary-dark: #c98300;
+
+// -----------------------------------------------------------------------------
+// Color — accent (basil): "added to cart", positive states
+// -----------------------------------------------------------------------------
+$color-accent-light: #e5f6ea;
+$color-accent: #1f9d55;
+$color-accent-dark: #16733e;
+
+// -----------------------------------------------------------------------------
+// Color — warm neutrals
+// -----------------------------------------------------------------------------
+$color-white: #ffffff;
+$color-ink: #1c1411; // espresso — headings, dark surfaces
+$color-ink-light: #2d231f; // raised dark surface
+$color-ink-lighter: #43362f; // borders on dark
+
+$color-text: #2b2320; // body copy
+$color-text-muted: #6f6460; // secondary copy
+$color-text-subtle: #9b908b; // placeholders, captions
+
+$color-background: #fffaf6; // page — warm cream
+$color-background-dark: $color-ink;
+$color-surface: $color-white; // cards, drawer
+$color-surface-alt: #fbf3ee; // tinted panels, input fills
+$color-surface-sunken: #f4e9e2; // skeletons, image wells
+
+$color-border: #efe3dc;
+$color-border-strong: #e0cfc5;
+
+$color-on-dark: $color-white;
+$color-on-dark-muted: rgba($color-white, 0.64);
+
+// -----------------------------------------------------------------------------
+// Color — feedback
+// -----------------------------------------------------------------------------
+$color-success-light: $color-accent-light;
+$color-success: $color-accent;
+$color-success-dark: $color-accent-dark;
+
+$color-error-light: #fdecea;
+$color-error: #d92d20;
+$color-error-dark: #a8231a;
+
+$color-star: $color-secondary;
+$color-star-empty: $color-border-strong;
+$color-overlay: rgba($color-ink, 0.5);
+
+// -----------------------------------------------------------------------------
+// Legacy aliases — still referenced by styles/pages/_login.scss (Auth pages).
+// -----------------------------------------------------------------------------
+$color-accent-green-dark: $color-accent-dark;
+$color-divider: $color-border;
+
+// -----------------------------------------------------------------------------
+// Imagery
+// -----------------------------------------------------------------------------
+$image-hero: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1600&q=70';
+
+// -----------------------------------------------------------------------------
+// Typography
+// -----------------------------------------------------------------------------
+$font-family-base:
+  'Plus Jakarta Sans',
+  system-ui,
+  -apple-system,
+  'Segoe UI',
+  Roboto,
+  'Helvetica Neue',
+  Arial,
+  sans-serif;
+$font-family-heading: $font-family-base;
+
+$font-size-xs: 0.75rem; // 12px — chips, captions
+$font-size-sm: 0.875rem; // 14px — secondary copy, buttons
+$font-size-base: 1rem; // 16px — body
+$font-size-lg: 1.125rem; // 18px — lead copy, card titles
+$font-size-xl: 1.25rem; // 20px — prices, drawer title
+$font-size-2xl: 1.5rem; // 24px — step titles
+$font-size-3xl: 2rem; // 32px — section titles (mobile)
+$font-size-4xl: 2.75rem; // 44px — section titles (desktop)
+$font-size-display: clamp(2.5rem, 1.6rem + 3.6vw, 4.25rem); // hero headline
+
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-extrabold: 800;
+
+$line-height-tight: 1.08; // display
+$line-height-snug: 1.25; // headings
+$line-height-base: 1.6; // body
+$line-height-relaxed: 1.75; // long-form quotes
+
+$letter-spacing-tight: -0.035em; // display
+$letter-spacing-snug: -0.02em; // headings
+$letter-spacing-normal: 0;
+$letter-spacing-wide: 0.08em; // eyebrows, uppercase labels
+
+// -----------------------------------------------------------------------------
+// Spacing — 4px base unit
+// -----------------------------------------------------------------------------
+$space-0: 0;
+$space-px: 1px;
+$space-0-5: 0.125rem; // 2px
+$space-1: 0.25rem; // 4px
+$space-1-5: 0.375rem; // 6px — inset padding inside pills
+$space-2: 0.5rem; // 8px
+$space-3: 0.75rem; // 12px
+$space-4: 1rem; // 16px
+$space-5: 1.25rem; // 20px
+$space-6: 1.5rem; // 24px
+$space-7: 1.75rem; // 28px
+$space-8: 2rem; // 32px
+$space-10: 2.5rem; // 40px
+$space-12: 3rem; // 48px
+$space-14: 3.5rem; // 56px
+$space-16: 4rem; // 64px
+$space-20: 5rem; // 80px
+$space-24: 6rem; // 96px
+
+$section-padding-y: $space-16;
+$section-padding-y-lg: $space-24;
+
+// -----------------------------------------------------------------------------
+// Sizing — controls and layout
+// -----------------------------------------------------------------------------
+$size-icon-sm: 2rem; // 32px — stepper buttons
+$size-icon-md: 2.5rem; // 40px — close, social
+$size-icon-lg: 2.75rem; // 44px — navbar controls (touch target)
+$size-icon-xl: 4rem; // 64px — step and empty-state tiles
+$size-avatar: 3rem; // 48px
+$size-thumb: 4.5rem; // 72px — cart thumbnails
+$size-logo: 2.5rem; // 40px
+
+$navbar-height: 4.5rem; // 72px
+$drawer-width: 26.5rem; // 424px
+$content-narrow: 36rem; // subtitles, empty states
+$border-width: 1px;
+$border-width-thick: 2px;
+
+// -----------------------------------------------------------------------------
+// Radius
+// -----------------------------------------------------------------------------
+$radius-xs: 6px;
+$radius-sm: 10px;
+$radius-md: 16px;
+$radius-lg: 24px;
+$radius-xl: 32px;
+$radius-full: 9999px;
+$radius-circle: 50%;
+$radius-pill: $radius-full; // alias kept for existing callers
+
+// -----------------------------------------------------------------------------
+// Elevation — warm-tinted so shadows never look grey on cream
+// -----------------------------------------------------------------------------
+$shadow-sm: 0 1px 2px rgba($color-ink, 0.05), 0 2px 8px rgba($color-ink, 0.05);
+$shadow-md: 0 4px 12px rgba($color-ink, 0.06), 0 12px 28px -8px rgba($color-ink, 0.12);
+$shadow-lg: 0 12px 24px -6px rgba($color-ink, 0.1), 0 24px 48px -12px rgba($color-ink, 0.18);
+$shadow-xl: 0 32px 64px -16px rgba($color-ink, 0.3);
+$shadow-primary: 0 10px 24px -8px rgba($color-primary, 0.6);
+$shadow-drawer: -24px 0 48px -12px rgba($color-ink, 0.25);
+$shadow-focus: 0 0 0 3px rgba($color-primary, 0.35);
+
+// -----------------------------------------------------------------------------
+// Effects
+// -----------------------------------------------------------------------------
+$blur-glass: 14px;
+$color-glass: rgba($color-background, 0.78);
+$gradient-primary: linear-gradient(135deg, $color-primary-light 0%, $color-primary 45%, $color-primary-dark 100%);
+$gradient-warm: linear-gradient(135deg, $color-secondary 0%, $color-primary 100%);
+
+// -----------------------------------------------------------------------------
+// Motion
+// -----------------------------------------------------------------------------
+$ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+$ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+$ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+$duration-fast: 150ms;
+$duration-base: 250ms;
+$duration-slow: 450ms;
+
+$transition-fast: $duration-fast $ease-out;
+$transition-base: $duration-base $ease-out;
+$transition-slow: $duration-slow $ease-out;
+
+$lift-sm: -2px;
+$lift-md: -6px;
+
+// -----------------------------------------------------------------------------
+// Breakpoints — identical to Bootstrap 5 so SCSS and `col-*` stay in sync
+// -----------------------------------------------------------------------------
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// -----------------------------------------------------------------------------
+// Layering
+// -----------------------------------------------------------------------------
+$z-below: -1;
+$z-base: 1;
+$z-card: 3;
+$z-button: 10;
+$z-navbar: 1030;
+$z-overlay: 1040;
+$z-drawer: 1045;

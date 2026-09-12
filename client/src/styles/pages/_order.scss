@@ -1,0 +1,12 @@
+@use '../variables' as *;
+
+.order {
+  div {
+    .num {
+      top: -15%;
+      left: -7%;
+      z-index: -1;
+      color: $color-primary;
+    }
+  }
+}

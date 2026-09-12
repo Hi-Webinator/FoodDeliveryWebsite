@@ -1,0 +1,23 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+.newsletter {
+  background-color: $color-surface-tint;
+  .input-group {
+    border: 1px solid $color-white;
+    background-color: $color-white;
+    input {
+      z-index: $z-base;
+      border: none;
+      background-color: $color-white;
+      &:focus {
+        box-shadow: none;
+      }
+      &::placeholder {
+        color: $color-muted-alt;
+        font-weight: $font-weight-semibold;
+        opacity: 0.8;
+      }
+    }
+  }
+}
