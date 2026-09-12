@@ -1,0 +1,30 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+.menu {
+  .title {
+    span {
+      color: $color-primary;
+    }
+  }
+  .subTitle {
+    color: $color-text;
+  }
+  .menuBox {
+    @include card-surface;
+    height: auto;
+    h1 {
+      font-size: $font-size-md !important;
+      color: $color-heading-alt;
+      span:first-child {
+        color: $color-primary;
+      }
+      span:last-child {
+        color: $color-accent-green;
+      }
+    }
+    .motor {
+      width: 45%;
+    }
+  }
+}

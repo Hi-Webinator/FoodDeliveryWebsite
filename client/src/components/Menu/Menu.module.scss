@@ -1,0 +1,130 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+@include reveal-keyframes;
+
+.menu {
+  @include section-padding;
+}
+
+// --- Filter tabs ------------------------------------------------------------
+// Scrolls sideways on phones instead of wrapping into a ragged block.
+.filters {
+  display: flex;
+  gap: $space-2;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto $space-8;
+  padding: $space-1-5;
+  overflow-x: auto;
+  border: $border-width solid $color-border;
+  border-radius: $radius-full;
+  background-color: $color-surface;
+  box-shadow: $shadow-sm;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.filters__chip {
+  @include reset-button;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-2 $space-4;
+  border-radius: $radius-full;
+  color: $color-text-muted;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  transition:
+    background-color $transition-base,
+    color $transition-base,
+    box-shadow $transition-base;
+  @include focus-ring;
+
+  &:hover:not(.filters__chip--active) {
+    background-color: $color-surface-alt;
+    color: $color-ink;
+  }
+}
+
+.filters__chip--active {
+  background-color: $color-ink;
+  color: $color-white;
+  box-shadow: $shadow-md;
+}
+
+// --- Grid -------------------------------------------------------------------
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+
+  @include respond-to('sm') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond-to('lg') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: $space-8;
+  }
+}
+
+.grid__cell {
+  @include reveal-on-scroll(30%);
+}
+
+// --- Loading / error / empty ------------------------------------------------
+.state {
+  @include stack($space-3);
+  @include card-surface($color-surface-alt);
+  align-items: center;
+  padding: $space-12 $space-6;
+  border-style: dashed;
+  box-shadow: none;
+  text-align: center;
+}
+
+.state__icon {
+  @include flex-center;
+  width: $size-icon-xl;
+  height: $size-icon-xl;
+  border-radius: $radius-circle;
+  background-color: $color-surface;
+  box-shadow: $shadow-sm;
+  font-size: $font-size-3xl;
+}
+
+.state__title {
+  margin: 0;
+  color: $color-ink;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+}
+
+.state__text {
+  max-width: $content-narrow;
+  margin: 0;
+  color: $color-text-muted;
+}
+
+.state__action {
+  @include button-primary;
+  margin-top: $space-2;
+}
+
+.notice {
+  max-width: $content-narrow;
+  margin: 0 auto $space-6;
+  padding: $space-3 $space-4;
+  border: $border-width solid $color-secondary;
+  border-radius: $radius-md;
+  background-color: $color-secondary-light;
+  color: $color-ink;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  text-align: center;
+}

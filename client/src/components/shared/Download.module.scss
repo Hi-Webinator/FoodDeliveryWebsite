@@ -1,0 +1,68 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.download {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-2 $space-4;
+  border: $border-width solid $color-border;
+  border-radius: $radius-md;
+  background-color: $color-surface;
+  box-shadow: $shadow-sm;
+  transition:
+    transform $transition-base,
+    box-shadow $transition-base;
+
+  &:hover {
+    transform: translateY($lift-sm);
+    box-shadow: $shadow-md;
+  }
+}
+
+.download--dark {
+  border-color: $color-ink-lighter;
+  background-color: $color-ink-light;
+  box-shadow: none;
+
+  .download__caption {
+    color: $color-on-dark-muted;
+  }
+
+  .download__store {
+    color: $color-on-dark;
+  }
+
+  .download__logo {
+    padding: $space-1;
+    border-radius: $radius-xs;
+    background-color: $color-white;
+  }
+}
+
+.download__logo {
+  width: $size-icon-sm;
+  height: $size-icon-sm;
+  object-fit: contain;
+}
+
+.download__text {
+  display: flex;
+  flex-direction: column;
+  line-height: $line-height-snug;
+}
+
+.download__caption {
+  color: $color-text-muted;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  letter-spacing: $letter-spacing-wide;
+  text-transform: uppercase;
+}
+
+.download__store {
+  color: $color-ink;
+  font-size: $font-size-base;
+  font-weight: $font-weight-extrabold;
+  letter-spacing: $letter-spacing-snug;
+}

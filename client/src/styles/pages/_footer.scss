@@ -1,0 +1,14 @@
+@use '../variables' as *;
+
+.footer {
+  background-color: $color-ink;
+  ul {
+    li {
+      cursor: pointer;
+      &:hover:not(:first-child) {
+        color: $color-white !important;
+        opacity: 0.8;
+      }
+    }
+  }
+}

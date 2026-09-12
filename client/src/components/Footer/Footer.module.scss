@@ -1,0 +1,192 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.footer {
+  position: relative;
+  // Top padding clears the newsletter panel that overlaps from above.
+  padding: $space-20 + $space-16 0 $space-8;
+  overflow: hidden;
+  background-color: $color-background-dark;
+  color: $color-on-dark-muted;
+
+  // Warm glow in the corner so the dark surface does not feel flat.
+  &::before {
+    content: '';
+    position: absolute;
+    right: -10%;
+    bottom: -30%;
+    width: 40rem;
+    aspect-ratio: 1;
+    border-radius: $radius-circle;
+    background: radial-gradient(circle, rgba($color-primary, 0.18), transparent 65%);
+    pointer-events: none;
+  }
+
+  @include respond-to('lg') {
+    padding-top: $space-20 + $space-20;
+  }
+}
+
+.footer__grid {
+  position: relative;
+  display: grid;
+  gap: $space-10;
+
+  @include respond-to('md') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond-to('lg') {
+    grid-template-columns: 1.6fr 1fr 1fr;
+    gap: $space-12;
+  }
+}
+
+// --- Brand ------------------------------------------------------------------
+.brand {
+  @include stack($space-5);
+
+  @include respond-to('md') {
+    grid-column: 1 / -1;
+  }
+
+  @include respond-to('lg') {
+    grid-column: auto;
+  }
+}
+
+.brand__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-3;
+}
+
+.brand__image {
+  width: $size-avatar;
+  height: $size-avatar;
+  object-fit: contain;
+}
+
+.brand__name {
+  color: $color-on-dark;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-extrabold;
+  letter-spacing: $letter-spacing-tight;
+}
+
+.brand__tagline {
+  max-width: 22rem;
+  margin: 0;
+  font-size: $font-size-sm;
+  line-height: $line-height-relaxed;
+}
+
+.brand__stores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+}
+
+.social {
+  display: flex;
+  gap: $space-2;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social__link {
+  @include flex-center;
+  width: $size-icon-md;
+  height: $size-icon-md;
+  border: $border-width solid $color-ink-lighter;
+  border-radius: $radius-circle;
+  color: $color-on-dark;
+  transition:
+    background-color $transition-fast,
+    border-color $transition-fast,
+    transform $transition-fast;
+  @include focus-ring;
+
+  &:hover {
+    transform: translateY($lift-sm);
+    border-color: $color-primary;
+    background-color: $color-primary;
+    color: $color-white;
+  }
+}
+
+// --- Contact ----------------------------------------------------------------
+.contact__title {
+  margin: 0 0 $space-5;
+  color: $color-on-dark;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-wide;
+  text-transform: uppercase;
+}
+
+.contact {
+  @include stack($space-4);
+  margin: 0;
+  padding: 0;
+  font-size: $font-size-sm;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+  }
+}
+
+.contact__icon {
+  width: $space-4;
+  color: $color-primary-light;
+}
+
+.contact__link {
+  color: $color-on-dark-muted;
+  text-decoration: none;
+  border-radius: $radius-xs;
+  @include focus-ring;
+
+  &:hover {
+    color: $color-on-dark;
+    text-decoration: underline;
+    text-underline-offset: $space-1;
+  }
+}
+
+// --- Bottom bar -------------------------------------------------------------
+.bottom {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-3;
+  margin-top: $space-12;
+  padding-top: $space-6;
+  border-top: $border-width solid $color-ink-lighter;
+  font-size: $font-size-xs;
+
+  @include respond-to('md') {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.bottom__copyright {
+  margin: 0;
+}
+
+.bottom__legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: $space-5;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-transform: capitalize;
+}
