@@ -164,18 +164,18 @@ $color-divider: $color-border;
 // -----------------------------------------------------------------------------
 // Imagery
 // -----------------------------------------------------------------------------
-$image-hero: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1600&q=70';
+$image-hero: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1600&q=70";
 
 // -----------------------------------------------------------------------------
 // Typography
 // -----------------------------------------------------------------------------
 $font-family-base:
-  'Plus Jakarta Sans',
+  "Plus Jakarta Sans",
   system-ui,
   -apple-system,
-  'Segoe UI',
+  "Segoe UI",
   Roboto,
-  'Helvetica Neue',
+  "Helvetica Neue",
   Arial,
   sans-serif;
 $font-family-heading: $font-family-base;
@@ -263,9 +263,15 @@ $radius-pill: $radius-full; // alias kept for existing callers
 // -----------------------------------------------------------------------------
 // Elevation — warm-tinted so shadows never look grey on cream
 // -----------------------------------------------------------------------------
-$shadow-sm: 0 1px 2px rgba($color-ink, 0.05), 0 2px 8px rgba($color-ink, 0.05);
-$shadow-md: 0 4px 12px rgba($color-ink, 0.06), 0 12px 28px -8px rgba($color-ink, 0.12);
-$shadow-lg: 0 12px 24px -6px rgba($color-ink, 0.1), 0 24px 48px -12px rgba($color-ink, 0.18);
+$shadow-sm:
+  0 1px 2px rgba($color-ink, 0.05),
+  0 2px 8px rgba($color-ink, 0.05);
+$shadow-md:
+  0 4px 12px rgba($color-ink, 0.06),
+  0 12px 28px -8px rgba($color-ink, 0.12);
+$shadow-lg:
+  0 12px 24px -6px rgba($color-ink, 0.1),
+  0 24px 48px -12px rgba($color-ink, 0.18);
 $shadow-xl: 0 32px 64px -16px rgba($color-ink, 0.3);
 $shadow-primary: 0 10px 24px -8px rgba($color-primary, 0.6);
 $shadow-drawer: -24px 0 48px -12px rgba($color-ink, 0.25);
@@ -276,8 +282,17 @@ $shadow-focus: 0 0 0 3px rgba($color-primary, 0.35);
 // -----------------------------------------------------------------------------
 $blur-glass: 14px;
 $color-glass: rgba($color-background, 0.78);
-$gradient-primary: linear-gradient(135deg, $color-primary-light 0%, $color-primary 45%, $color-primary-dark 100%);
-$gradient-warm: linear-gradient(135deg, $color-secondary 0%, $color-primary 100%);
+$gradient-primary: linear-gradient(
+  135deg,
+  $color-primary-light 0%,
+  $color-primary 45%,
+  $color-primary-dark 100%
+);
+$gradient-warm: linear-gradient(
+  135deg,
+  $color-secondary 0%,
+  $color-primary 100%
+);
 
 // -----------------------------------------------------------------------------
 // Motion

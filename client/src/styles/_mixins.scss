@@ -1,15 +1,15 @@
-@use 'sass:map';
-@use 'variables' as *;
+@use "sass:map";
+@use "variables" as *;
 
 // =============================================================================
 // Reusable patterns. Every value comes from _variables.scss.
 // =============================================================================
 
 $breakpoints: (
-  'sm': $breakpoint-sm,
-  'md': $breakpoint-md,
-  'lg': $breakpoint-lg,
-  'xl': $breakpoint-xl,
+  "sm": $breakpoint-sm,
+  "md": $breakpoint-md,
+  "lg": $breakpoint-lg,
+  "xl": $breakpoint-xl,
 );
 
 /// Mobile-first media query. Usage: `@include respond-to('lg') { ... }`
@@ -54,7 +54,7 @@ $breakpoints: (
 @mixin section-padding {
   padding-block: $section-padding-y;
 
-  @include respond-to('lg') {
+  @include respond-to("lg") {
     padding-block: $section-padding-y-lg;
   }
 }
@@ -185,7 +185,14 @@ $breakpoints: (
   font-size: $font-size;
 }
 
-@mixin button-variant($bg, $fg, $hover-bg, $border: transparent, $shadow: none, $hover-shadow: none) {
+@mixin button-variant(
+  $bg,
+  $fg,
+  $hover-bg,
+  $border: transparent,
+  $shadow: none,
+  $hover-shadow: none
+) {
   border-color: $border;
   background-color: $bg;
   color: $fg;
@@ -201,17 +208,33 @@ $breakpoints: (
 @mixin button-primary {
   @include button-base;
   @include button-size;
-  @include button-variant($color-primary, $color-white, $color-primary-dark, transparent, none, $shadow-primary);
+  @include button-variant(
+    $color-primary,
+    $color-white,
+    $color-primary-dark,
+    transparent,
+    none,
+    $shadow-primary
+  );
 }
 
 @mixin button-soft {
   @include button-base;
   @include button-size;
-  @include button-variant($color-surface-alt, $color-ink, $color-primary-50, $color-border);
+  @include button-variant(
+    $color-surface-alt,
+    $color-ink,
+    $color-primary-50,
+    $color-border
+  );
 }
 
 /// Round icon-only control.
-@mixin icon-button($size: $size-icon-md, $bg: $color-surface-alt, $fg: $color-ink) {
+@mixin icon-button(
+  $size: $size-icon-md,
+  $bg: $color-surface-alt,
+  $fg: $color-ink
+) {
   @include reset-button;
   @include flex-center;
   flex-shrink: 0;

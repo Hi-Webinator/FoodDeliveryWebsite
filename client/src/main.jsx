@@ -7,10 +7,10 @@ import store from './store/store';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import './styles/globals.scss';
+import './styles/styles.scss';
 
 // TS: `getElementById` returns `HTMLElement | null` — assert with `!` or guard
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById<HTMLElement | null>('root')).render(
   <React.StrictMode>
     <Provider store={store}>
       <App />

@@ -1,0 +1,95 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  font-family: inherit;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 250ms cubic-bezier(0.22, 1, 0.36, 1), background-color 250ms cubic-bezier(0.22, 1, 0.36, 1), border-color 250ms cubic-bezier(0.22, 1, 0.36, 1), color 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 83, 49, 0.35);
+}
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.btn {
+  position: relative;
+  z-index: 10;
+}
+.btn:hover:not(:disabled) .btn__icon {
+  transform: translateX(0.25rem);
+}
+
+.btn__icon {
+  font-size: 0.9em;
+  transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn--primary {
+  border-color: transparent;
+  background-color: #ff5331;
+  color: #ffffff;
+  box-shadow: none;
+}
+.btn--primary:hover:not(:disabled) {
+  background-color: #e23d1c;
+  color: #ffffff;
+  box-shadow: 0 10px 24px -8px rgba(255, 83, 49, 0.6);
+}
+
+.btn--dark {
+  border-color: transparent;
+  background-color: #1c1411;
+  color: #ffffff;
+  box-shadow: none;
+}
+.btn--dark:hover:not(:disabled) {
+  background-color: #2d231f;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(28, 20, 17, 0.06), 0 12px 28px -8px rgba(28, 20, 17, 0.12);
+}
+
+.btn--light {
+  border-color: #efe3dc;
+  background-color: #ffffff;
+  color: #1c1411;
+  box-shadow: none;
+}
+.btn--light:hover:not(:disabled) {
+  background-color: #fff5f2;
+  color: #1c1411;
+  box-shadow: 0 4px 12px rgba(28, 20, 17, 0.06), 0 12px 28px -8px rgba(28, 20, 17, 0.12);
+}
+
+.btn--sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  min-height: 2.5rem;
+}
+
+.btn--md {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  min-height: 2.75rem;
+}
+
+.btn--lg {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  min-height: 3.5rem;
+}/*# sourceMappingURL=Btn.module.css.map */
