@@ -6,3 +6,8 @@
 @use "../components/Cart/cartItem";
 @use "../components/Cart/cartSidebar";
 @use "../components/Cart/orderForm";
+@use "../components/shared/box";
+@use "../components/Footer/footer";
+@use "../components/Footer/footerLinkList";
+@use "../components/Footer/newsletter";
+@use "../components/Hero/Hero.module.scss";
