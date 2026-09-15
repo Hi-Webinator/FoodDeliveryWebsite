@@ -6,7 +6,7 @@ import { decodeEntities } from "../../utils/sanitize";
 import { QUANTITY_MAX } from "../../constants/config";
 
 type ItemProps = {
-  id: number;
+  id: string;
   name: string;
   price: number;
   image: string;
@@ -15,8 +15,8 @@ type ItemProps = {
 
 type CartItemProps = {
   item: ItemProps;
-  onQuantityChange: (id: number, quantity: number) => void;
-  onRemove: (id: number) => void;
+  onQuantityChange: (id: string, quantity: number) => void;
+  onRemove: (id: string) => void;
 };
 
 const CartItem = ({ item, onQuantityChange, onRemove }: CartItemProps) => {

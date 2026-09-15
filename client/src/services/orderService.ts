@@ -1,4 +1,4 @@
-import type { MenuItem } from '../store/types';
+import type { Order } from '../store/types';
 import api from './api';
 
 export type CreateOrderPayload = {
@@ -10,7 +10,7 @@ export type CreateOrderPayload = {
 };
 
 export type CreateOrderResult = {
-  order: MenuItem[];
+  order: Order;
   token: string;
 };
 

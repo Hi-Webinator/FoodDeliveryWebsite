@@ -5,7 +5,7 @@ import { clearCart, selectOrderItems, selectTotalPrice } from '../features/cart/
 import { normalizeWhitespace, sanitizePhone } from '../utils/sanitize';
 import { MESSAGES } from '../constants/config';
 import { useAppDispatch, useAppSelector } from './hooks';
-import type { ValidationIssue, MenuItem } from '../store/types';
+import type { ValidationIssue, Order } from '../store/types';
 import type { NormalizedApiError } from '../services/api';
 
 interface OrderFormValues {
@@ -18,7 +18,7 @@ type OrderState = {
   isSubmitting: boolean;
   error: string | null;
   fieldErrors: ValidationIssue[];
-  order: MenuItem[] | null;
+  order: Order | null;
 };
 
 const IDLE: OrderState = { isSubmitting: false, error: null, fieldErrors: [], order: null };

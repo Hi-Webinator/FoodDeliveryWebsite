@@ -18,3 +18,20 @@ export type MenuItem = {
 export type ValidationIssue = {
   [key: string]: unknown;
 }
+
+export type OrderItem = {
+  menuItemId: string;
+  name: string;
+  price: number;
+  quantity: number;
+};
+
+export type Order = {
+  id: string;
+  items: OrderItem[];
+  totalPrice: number;
+  customerName: string;
+  customerPhone: string;
+  deliveryAddress: string;
+  status: string;
+};

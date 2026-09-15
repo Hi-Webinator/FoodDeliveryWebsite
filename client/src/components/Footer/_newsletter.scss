@@ -1,0 +1,117 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+@include reveal-keyframes;
+
+.newsletter {
+  // The panel overlaps the dark footer below it.
+  position: relative;
+  z-index: $z-base;
+  margin-bottom: -$space-20;
+  padding-top: $space-8;
+}
+
+.panel {
+  position: relative;
+  display: grid;
+  gap: $space-6;
+  align-items: center;
+  padding: $space-8 $space-6;
+  overflow: hidden;
+  border-radius: $radius-xl;
+  background: $gradient-primary;
+  box-shadow: $shadow-xl;
+  isolation: isolate;
+  @include reveal-on-scroll;
+
+  // Two soft light discs for depth.
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: $z-below;
+    border-radius: $radius-circle;
+    background-color: rgba($color-white, 0.12);
+  }
+
+  &::before {
+    top: -$space-16;
+    right: -$space-10;
+    width: $space-24 * 2;
+    aspect-ratio: 1;
+  }
+
+  &::after {
+    bottom: -$space-20;
+    left: 30%;
+    width: $space-24 * 1.5;
+    aspect-ratio: 1;
+  }
+
+  @include respond-to('lg') {
+    grid-template-columns: 1.2fr 1fr;
+    gap: $space-12;
+    padding: $space-12 $space-14;
+  }
+}
+
+.panel__copy {
+  @include stack($space-2);
+  text-align: center;
+
+  @include respond-to('lg') {
+    text-align: left;
+  }
+}
+
+.panel__title {
+  @include heading($font-size-3xl);
+  color: $color-white;
+  text-wrap: balance;
+}
+
+.panel__text {
+  margin: 0;
+  color: rgba($color-white, 0.85);
+  font-size: $font-size-base;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-1-5 $space-1-5 $space-1-5 $space-4;
+  border: $border-width-thick solid transparent;
+  border-radius: $radius-full;
+  background-color: $color-surface;
+  box-shadow: $shadow-lg;
+  transition: border-color $transition-fast;
+
+  &:focus-within {
+    border-color: $color-ink;
+  }
+}
+
+.field__icon {
+  flex-shrink: 0;
+  color: $color-text-subtle;
+}
+
+.field__label {
+  @include visually-hidden;
+}
+
+.field__input {
+  flex: 1;
+  min-width: 0;
+  padding: $space-2 0;
+  border: none;
+  background: transparent;
+  color: $color-ink;
+  font-size: $font-size-sm;
+  @include placeholder-color;
+
+  &:focus {
+    outline: none;
+  }
+}
