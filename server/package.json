@@ -8,6 +8,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "node server.js",
+    "build": "echo \"No build step: the API runs directly on Node\"",
     "dev": "node --watch server.js",
     "seed": "node seed/seed.js"
   },
