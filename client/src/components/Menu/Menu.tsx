@@ -91,8 +91,6 @@ const Menu = () => {
         />
       );
     }
-    console.log(items);
-    console.log(typeof items);
     return <MenuGrid items={items} quantities={quantities} onAdd={handleAdd} />;
   };
 

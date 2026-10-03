@@ -267,16 +267,16 @@ Unauthenticated liveness probe: `{ "success": true, "message": "ok", "uptime": 3
 /client                              ← Vite + React
   /src
     /components
-      Navbar/       Navbar.jsx · NavLinks.jsx · CartButton.jsx · useActiveSection.js
-      Hero/         Hero.jsx
-      Menu/         Menu.jsx · MenuFilters.jsx · MenuGrid.jsx · MenuState.jsx · CategoryShowcase.jsx
-      MenuCard/     MenuCard.jsx
-      Cart/         CartSidebar.jsx · CartItem.jsx · OrderForm.jsx
-      HowItWorks/   HowItWorks.jsx
-      Testimonials/ Testimonials.jsx · TestimonialCard.jsx · testimonialsData.js
-      Footer/       Footer.jsx · FooterLinkList.jsx · Newsletter.jsx · footerLinks.js
-      Auth/         Login.jsx · Sign.jsx · Form/   ← pre-existing pages, not in the one-page flow
-      shared/       Btn.jsx · Box.jsx · Download.jsx · SectionHeading.jsx
+      Navbar/       Navbar.tsx · NavLinks.tsx · CartButton.tsx · useActiveSection.ts
+      Hero/         Hero.tsx
+      Menu/         Menu.tsx · MenuFilters.tsx · MenuGrid.tsx · MenuState.tsx · CategoryShowcase.tsx
+      MenuCard/     MenuCard.tsx
+      Cart/         CartSidebar.tsx · CartItem.tsx · OrderForm.tsx
+      HowItWorks/   HowItWorks.tsx
+      Testimonials/ Testimonials.tsx · TestimonialCard.tsx · testimonialsData.ts
+      Footer/       Footer.tsx · FooterLinkList.tsx · Newsletter.tsx · footerLinks.ts
+      Auth/         Login.tsx · Sign.tsx · Form/   ← pre-existing pages, not in the one-page flow
+      shared/       Btn.tsx · Box.tsx · Download.tsx · SectionHeading.tsx
     /features/cart  cartSlice.js          ← actions + selectors, co-located
     /store          store.js · persistCartMiddleware.js
     /hooks          useMenu.js · useOrder.js · useCart.js
@@ -285,7 +285,7 @@ Unauthenticated liveness probe: `{ "success": true, "message": "ok", "uptime": 3
     /data           mockMenu.js           ← offline fallback
     /styles         _variables.scss · _mixins.scss · globals.scss · pages/*
     /utils          formatPrice.js · localStorage.js · sanitize.js
-    App.jsx · main.jsx
+    App.tsx · main.tsx
 
 /server                              ← Express
   /config      constants.js · database.js

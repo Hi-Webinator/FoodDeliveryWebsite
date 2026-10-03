@@ -12,6 +12,23 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-redux', '@reduxjs/toolkit'],
+          swiper: ['swiper'],
+          icons: [
+            '@fortawesome/fontawesome-svg-core',
+            '@fortawesome/react-fontawesome',
+            '@fortawesome/free-solid-svg-icons',
+            '@fortawesome/free-brands-svg-icons',
+            '@fortawesome/free-regular-svg-icons',
+          ],
+        },
+      },
+    },
+  },
   css: {
     modules: {
       // BEM-ish readable class names in dev, hashed in prod

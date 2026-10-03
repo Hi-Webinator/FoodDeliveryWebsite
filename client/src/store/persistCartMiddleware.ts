@@ -19,7 +19,7 @@ const isActionWithType = (action: unknown): action is { type: string } =>
  * A hand-rolled middleware is enough here — redux-persist would add a
  * dependency and a rehydration lifecycle for a single slice.
  */
-const persistCartMiddleware: Middleware<{}, RootState> =
+const persistCartMiddleware: Middleware<object, RootState> =
   (store) =>
     (next) =>
       (action) => {
