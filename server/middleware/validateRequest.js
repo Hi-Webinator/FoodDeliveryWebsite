@@ -6,8 +6,6 @@ const { HTTP_STATUS } = require('../config/constants');
 /**
  * Terminates the request with a 422 when any express-validator rule in the
  * chain failed. Place it immediately after the rule array on a route.
- *
- * TS: `RequestHandler`
  */
 const validateRequest = (req, res, next) => {
   const result = validationResult(req);
@@ -16,7 +14,6 @@ const validateRequest = (req, res, next) => {
     return next();
   }
 
-  // TS: type this as `ValidationIssue[]` — { field: string; message: string }
   const errors = result.array().map((error) => ({
     field: error.path ?? error.param,
     message: error.msg,

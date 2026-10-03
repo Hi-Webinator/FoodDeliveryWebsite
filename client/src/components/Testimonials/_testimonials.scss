@@ -1,0 +1,53 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+@include reveal-keyframes;
+
+.section {
+  position: relative;
+  @include section-padding;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(180deg, $color-background 0%, $color-primary-50 100%);
+
+  // Dotted pattern fading out toward the bottom.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: $z-below;
+    @include dot-pattern;
+    mask-image: linear-gradient(180deg, $color-ink 0%, transparent 75%);
+    -webkit-mask-image: linear-gradient(180deg, $color-ink 0%, transparent 75%);
+  }
+}
+
+.slider {
+  // Room for card shadows and the hover lift, which Swiper would clip.
+  padding: $space-3 $space-2 $space-8;
+  margin-inline: -$space-2;
+  @include reveal-on-scroll;
+}
+
+// Equal-height cards: slides stretch to the tallest one.
+.slider .slide {
+  height: auto;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: $space-3;
+}
+
+.controls__button {
+  @include icon-button($size-icon-lg, $color-surface, $color-ink);
+  border: $border-width solid $color-border;
+  box-shadow: $shadow-sm;
+
+  &:hover:not(:disabled) {
+    background-color: $color-primary;
+    color: $color-white;
+    box-shadow: $shadow-primary;
+  }
+}

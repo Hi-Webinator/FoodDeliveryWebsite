@@ -6,8 +6,6 @@ const { MENU_CATEGORIES } = require('../config/constants');
 
 /**
  * Rules for GET /api/menu/:category.
- *
- * TS: `ValidationChain[]`
  */
 const categoryParamRules = [
   param('category')

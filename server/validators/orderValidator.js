@@ -7,8 +7,6 @@ const { LIMITS, PHONE_PATTERN } = require('../config/constants');
 /**
  * Rules for POST /api/orders. Every string is trimmed and escaped so nothing
  * that reaches the database can be replayed into a page as markup.
- *
- * TS: `ValidationChain[]`
  */
 const createOrderRules = [
   body('customerName')

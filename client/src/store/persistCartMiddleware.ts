@@ -1,4 +1,4 @@
-import { AnyAction, Dispatch, MiddlewareAPI } from '@reduxjs/toolkit';
+import type { Middleware } from '@reduxjs/toolkit';
 import { saveCartItems } from '../utils/localStorage';
 import type { RootState } from './types';
 
@@ -10,20 +10,22 @@ const PERSISTED_ACTIONS = new Set([
   'cart/clearCart',
 ]);
 
+/** Redux's `Middleware` type leaves `action` as `unknown`, so narrow it ourselves. */
+const isActionWithType = (action: unknown): action is { type: string } =>
+  typeof action === 'object' && action !== null && typeof (action as { type?: unknown }).type === 'string';
+
 /**
  * Writes the cart to localStorage after any action that mutates it.
  * A hand-rolled middleware is enough here — redux-persist would add a
  * dependency and a rehydration lifecycle for a single slice.
- *
- * TS: `Middleware<{}, RootState>`
  */
-const persistCartMiddleware =
-  (store: MiddlewareAPI<Dispatch<AnyAction>, RootState>) =>
-    (next: Dispatch<AnyAction>) =>
-      (action: AnyAction) => {
+const persistCartMiddleware: Middleware<object, RootState> =
+  (store) =>
+    (next) =>
+      (action) => {
         const result = next(action);
 
-        if (PERSISTED_ACTIONS.has(action.type)) {
+        if (isActionWithType(action) && PERSISTED_ACTIONS.has(action.type)) {
           saveCartItems(store.getState().cart.items);
         }
 

@@ -4,7 +4,6 @@ const rateLimit = require('express-rate-limit');
 
 const { RATE_LIMITS, HTTP_STATUS } = require('../config/constants');
 
-// TS: these are `RateLimitRequestHandler`; the handler is `(req, res) => void`
 /** Shared 429 body, so throttled responses match every other error shape. */
 const tooManyRequests = (message) => (req, res) =>
   res.status(HTTP_STATUS.TOO_MANY_REQUESTS).json({ success: false, message });

@@ -1,5 +1,3 @@
-import styles from './Navbar.module.scss';
-
 interface NavLink {
   id: string;
   label: string;
@@ -18,15 +16,15 @@ interface NavLinksProps {
  * Smooth-scroll navigation links. Rendered as buttons rather than anchors so
  * the URL hash never changes — this is a single page with no routing.
  */
-const NavLinks = ({ links, activeId = '', onNavigate }: NavLinksProps) => (
-  <ul className={styles.links}>
+const NavLinks = ({ links, activeId = "", onNavigate }: NavLinksProps) => (
+  <ul className="links">
     {links.map(({ id, label }) => (
       <li key={id}>
         <button
           type="button"
           onClick={() => onNavigate(id)}
-          className={`${styles.link} ${activeId === id ? styles['link--active'] : ''}`}
-          aria-current={activeId === id ? 'true' : undefined}
+          className={`link ${activeId === id ? "link--active" : ""}`}
+          aria-current={activeId === id ? "true" : undefined}
         >
           {label}
         </button>

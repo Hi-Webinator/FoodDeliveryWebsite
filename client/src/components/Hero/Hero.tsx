@@ -10,18 +10,15 @@ import {
 
 import Download from "../shared/Download";
 import Btn from "../shared/Btn";
-import Astore from "../../imgs/appStore.png";
-import GPlay from "../../imgs/GPlay.png";
-import livreur from "../../imgs/livreur.png";
-import pizza from "../../imgs/🍕.png";
-import burger from "../../imgs/🍔.png";
+import Astore from "../../assets/icons/appStore.png";
+import GPlay from "../../assets/icons/GPlay.png";
+import livreur from "../../assets/imgs/livreur.png";
+import pizza from "../../assets/icons/🍕.png";
+import burger from "../../assets/icons/🍔.png";
 import { SECTION_IDS } from "../../constants/config";
-import "./_hero.scss";
 
 /**
  * Landing section: headline, delivery-location input and the primary CTA.
- *
- * TS: this component takes no props — no interface needed.
  */
 const Hero = () => {
   const scrollToMenu = useCallback(() => {
@@ -34,7 +31,7 @@ const Hero = () => {
     <section id={SECTION_IDS.HERO} className="hero">
       <div className="hero__backdrop" aria-hidden="true" />
 
-      <div className={`container hero__inner`}>
+      <div className="container hero__inner">
         <div className="hero__content">
           <span className="hero__eyebrow">
             <FontAwesomeIcon icon={faBolt} aria-hidden="true" /> Deals &amp;

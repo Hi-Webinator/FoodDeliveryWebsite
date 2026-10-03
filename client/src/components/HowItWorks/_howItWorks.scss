@@ -1,0 +1,109 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+@include reveal-keyframes;
+
+$icon-tile: $size-icon-xl + $space-4;
+$connector-inset: $space-4;
+$steps-gap: $space-8;
+
+.section {
+  @include section-padding;
+  background-color: $color-surface;
+  border-block: $border-width solid $color-border;
+}
+
+.steps {
+  display: grid;
+  gap: $space-10;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include respond-to('md') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: $steps-gap;
+  }
+}
+
+.step {
+  position: relative;
+  @include stack($space-3);
+  align-items: center;
+  text-align: center;
+  @include reveal-on-scroll;
+
+  // Dashed connector from this step's icon to the next one (desktop only).
+  &:not(:last-child)::after {
+    @include respond-to('md') {
+      content: '';
+      position: absolute;
+      // Spans from this tile's right edge to the next tile's left edge.
+      top: $icon-tile * 0.5;
+      left: calc(50% + #{$icon-tile * 0.5 + $connector-inset});
+      width: calc(100% + #{$steps-gap - $icon-tile - $connector-inset * 2});
+      height: $border-width-thick;
+      background-image: linear-gradient(90deg, $color-primary-200 50%, transparent 50%);
+      background-size: $space-3 $border-width-thick;
+    }
+  }
+
+  &:hover .step__iconWrap {
+    transform: translateY($lift-md) rotate(-4deg);
+    box-shadow: $shadow-primary;
+  }
+}
+
+.step__iconWrap {
+  position: relative;
+  @include flex-center;
+  width: $icon-tile;
+  height: $icon-tile;
+  margin-bottom: $space-3;
+  border-radius: $radius-lg;
+  background: $gradient-primary;
+  box-shadow: $shadow-md;
+  transition:
+    transform $transition-base,
+    box-shadow $transition-base;
+}
+
+.step__icon {
+  color: $color-white;
+  font-size: $font-size-3xl;
+}
+
+.step__number {
+  position: absolute;
+  top: -$space-2;
+  right: -$space-2;
+  @include flex-center;
+  min-width: $space-8;
+  height: $space-8;
+  padding: 0 $space-1;
+  border: $border-width-thick solid $color-surface;
+  border-radius: $radius-full;
+  background-color: $color-ink;
+  color: $color-white;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-extrabold;
+  font-variant-numeric: tabular-nums;
+}
+
+.step__title {
+  margin: 0;
+  color: $color-ink;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+
+  @include respond-to('lg') {
+    font-size: $font-size-2xl;
+  }
+}
+
+.step__text {
+  max-width: 18rem;
+  margin: 0;
+  color: $color-text-muted;
+  font-size: $font-size-base;
+}

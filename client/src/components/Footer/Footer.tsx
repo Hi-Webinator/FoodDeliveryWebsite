@@ -3,14 +3,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookF, faInstagram, faTiktok, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
-import pizza from '../../imgs/🍕.png';
-import Astore from '../../imgs/appStore.png';
-import GPlay from '../../imgs/GPlay.png';
+import pizza from '../../assets/icons/🍕.png';
+import Astore from '../../assets/icons/appStore.png';
+import GPlay from '../../assets/icons/GPlay.png';
 import Download from '../shared/Download';
 import FooterLinkList from './FooterLinkList';
 import { LEGAL_LINKS } from './footerLinks';
 import { NAV_LINKS, SECTION_IDS } from '../../constants/config';
-import './_footer.scss';
 
 const SOCIAL_LINKS = [
   { label: 'Instagram', href: 'https://www.instagram.com', icon: faInstagram },

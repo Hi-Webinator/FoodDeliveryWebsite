@@ -1,11 +1,19 @@
-import { createSlice, createSelector } from '@reduxjs/toolkit';
+import { createSlice, createSelector, PayloadAction } from '@reduxjs/toolkit';
 
 import { loadCartItems } from '../../utils/localStorage';
 import { roundMoney } from '../../utils/formatPrice';
 import { QUANTITY_MIN, QUANTITY_MAX } from '../../constants/config';
+import { CartItem } from '../../hooks/useCart';
+import type { RootState } from '../../store/types';
+
+type CartState = {
+  items: CartItem[];
+  totalQuantity: number;
+  totalPrice: number;
+  isOpen: boolean;
+};
 
 /** Keeps a quantity inside the bounds the API also enforces. */
-// TS: `(value: number) => number`
 const clampQuantity = (value: number): number => {
   const quantity = Math.trunc(Number(value));
   if (!Number.isFinite(quantity)) return QUANTITY_MIN;
@@ -13,28 +21,23 @@ const clampQuantity = (value: number): number => {
 };
 
 /** Totals are derived from `items`, never tracked independently. */
-// TS: `(items: CartItem[]) => { totalQuantity: number; totalPrice: number }`
 const deriveTotals = (items: CartItem[]) => ({
   totalQuantity: items.reduce((sum, item) => sum + item.quantity, 0),
   totalPrice: roundMoney(items.reduce((sum, item) => sum + item.price * item.quantity, 0)),
 });
 
 /** Rehydrates from localStorage so a refresh does not empty the cart. */
-// TS: `(): CartState`
-const buildInitialState = () => {
+const buildInitialState = (): CartState => {
   const items = loadCartItems();
   return { items, ...deriveTotals(items), isOpen: false };
 };
 
-// TS: `interface CartItem { id: string; name: string; price: number; image: string; quantity: number }`
-// TS: `interface CartState { items: CartItem[]; totalQuantity: number; totalPrice: number; isOpen: boolean }`
 const cartSlice = createSlice({
   name: 'cart',
   initialState: buildInitialState(),
   reducers: {
     /** payload: MenuItem (+ optional quantity). Immer lets us "mutate" safely. */
-    // TS: `PayloadAction<MenuItem & { quantity?: number }>`
-    addItem: (state, action) => {
+    addItem: (state, action: PayloadAction<Omit<CartItem, 'quantity'> & { quantity?: number }>) => {
       const { id, name, price, image, quantity = 1 } = action.payload;
       const existing = state.items.find((item) => item.id === id);
 
@@ -47,15 +50,13 @@ const cartSlice = createSlice({
       Object.assign(state, deriveTotals(state.items));
     },
 
-    // TS: `PayloadAction<string>` — the cart item id
-    removeItem: (state, action) => {
+    removeItem: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
       Object.assign(state, deriveTotals(state.items));
     },
 
     /** Setting a quantity to 0 (or less) removes the line entirely. */
-    // TS: `PayloadAction<{ id: string; quantity: number }>`
-    updateQuantity: (state, action) => {
+    updateQuantity: (state, action: PayloadAction<{ id: string; quantity: number }>) => {
       const { id, quantity } = action.payload;
       const target = state.items.find((item) => item.id === id);
       if (!target) return;
@@ -92,12 +93,11 @@ export const { addItem, removeItem, updateQuantity, clearCart, openCart, closeCa
   cartSlice.actions;
 
 // --- Selectors (co-located with the slice) ---------------------------------
-// TS: `(state: RootState) => CartState`
-export const selectCart = (state) => state.cart;
-export const selectCartItems = (state) => state.cart.items;
-export const selectTotalQuantity = (state) => state.cart.totalQuantity;
-export const selectTotalPrice = (state) => state.cart.totalPrice;
-export const selectIsCartOpen = (state) => state.cart.isOpen;
+export const selectCart = (state: RootState): CartState => state.cart;
+export const selectCartItems = (state: RootState): CartItem[] => state.cart.items;
+export const selectTotalQuantity = (state: RootState): number => state.cart.totalQuantity;
+export const selectTotalPrice = (state: RootState): number => state.cart.totalPrice;
+export const selectIsCartOpen = (state: RootState): boolean => state.cart.isOpen;
 
 export const selectIsCartEmpty = createSelector(
   [selectCartItems],
@@ -105,8 +105,7 @@ export const selectIsCartEmpty = createSelector(
 );
 
 /** Quantity of one dish, so a MenuCard can show its current count. */
-// TS: `(id: string) => (state: RootState) => number`
-export const makeSelectQuantityById = (id) =>
+export const makeSelectQuantityById = (id: string) =>
   createSelector([selectCartItems], (items) => items.find((item) => item.id === id)?.quantity ?? 0);
 
 /** The exact `items` array POST /api/orders expects. */

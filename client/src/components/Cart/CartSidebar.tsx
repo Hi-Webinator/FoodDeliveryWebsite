@@ -1,27 +1,38 @@
-import { useCallback, useEffect, useRef } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck, faTriangleExclamation, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { useCallback, useEffect, useRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCircleCheck,
+  faTriangleExclamation,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 
-import CartItem from './CartItem';
-import CartEmpty from './CartEmpty';
-import OrderForm from './OrderForm';
-import { useCart } from '../../hooks/useCart';
-import { useOrder } from '../../hooks/useOrder';
-import { formatPrice } from '../../utils/formatPrice';
-import { MESSAGES, SECTION_IDS } from '../../constants/config';
-import styles from './CartSidebar.module.scss';
+import CartItem from "./CartItem";
+import CartEmpty from "./CartEmpty";
+import OrderForm from "./OrderForm";
+import { useCart } from "../../hooks/useCart";
+import { useOrder } from "../../hooks/useOrder";
+import { formatPrice } from "../../utils/formatPrice";
+import { MESSAGES, SECTION_IDS } from "../../constants/config";
 
-const ORDER_FORM_ID = 'order-form';
+const ORDER_FORM_ID = "order-form";
 
 /**
  * Slide-over cart: line items, delivery form and submission.
- *
- * TS: this component takes no props — no interface needed.
  */
 const CartSidebar = () => {
-  const { items, totalQuantity, totalPrice, isOpen, isEmpty, remove, setQuantity, clear, close } =
-    useCart();
-  const { submitOrder, isSubmitting, error, fieldErrors, order, reset } = useOrder();
+  const {
+    items,
+    totalQuantity,
+    totalPrice,
+    isOpen,
+    isEmpty,
+    remove,
+    setQuantity,
+    clear,
+    close,
+  } = useCart();
+  const { submitOrder, isSubmitting, error, fieldErrors, order, reset } =
+    useOrder();
 
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -30,17 +41,17 @@ const CartSidebar = () => {
     if (!isOpen) return undefined;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') close();
+      if (event.key === "Escape") close();
     };
 
     const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    document.addEventListener('keydown', handleKeyDown);
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", handleKeyDown);
     closeButtonRef.current?.focus();
 
     return () => {
       document.body.style.overflow = previousOverflow;
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen, close]);
 
@@ -56,7 +67,9 @@ const CartSidebar = () => {
 
   const handleBrowseMenu = useCallback(() => {
     close();
-    document.getElementById(SECTION_IDS.MENU)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document
+      .getElementById(SECTION_IDS.MENU)
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [close]);
 
   if (!isOpen) return null;
@@ -65,22 +78,29 @@ const CartSidebar = () => {
     <>
       <button
         type="button"
-        className={styles.overlay}
+        className="overlay"
         onClick={close}
         aria-label="Close cart"
         tabIndex={-1}
       />
 
-      <aside className={styles.drawer} role="dialog" aria-modal="true" aria-label="Shopping cart">
-        <header className={styles.drawer__header}>
-          <h2 className={styles.drawer__title}>
+      <aside
+        className="drawer"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Shopping cart"
+      >
+        <header className="drawer__header">
+          <h2 className="drawer__title">
             Your cart
-            {totalQuantity > 0 ? <span className={styles.drawer__count}>{totalQuantity}</span> : null}
+            {totalQuantity > 0 ? (
+              <span className="drawer__count">{totalQuantity}</span>
+            ) : null}
           </h2>
           <button
             ref={closeButtonRef}
             type="button"
-            className={styles.drawer__close}
+            className="drawer__close"
             onClick={close}
             aria-label="Close cart"
           >
@@ -88,9 +108,9 @@ const CartSidebar = () => {
           </button>
         </header>
 
-        <div className={styles.drawer__body}>
+        <div className="drawer__body">
           {order ? (
-            <p className={`${styles.alert} ${styles['alert--success']}`} role="status">
+            <p className="alert alert--success" role="status">
               <FontAwesomeIcon icon={faCircleCheck} aria-hidden="true" />
               <span>
                 {MESSAGES.ORDER_SUCCESS} Order reference: {order.id}
@@ -99,25 +119,35 @@ const CartSidebar = () => {
           ) : null}
 
           {error ? (
-            <p className={`${styles.alert} ${styles['alert--error']}`} role="alert">
-              <FontAwesomeIcon icon={faTriangleExclamation} aria-hidden="true" />
+            <p className="alert alert--error" role="alert">
+              <FontAwesomeIcon
+                icon={faTriangleExclamation}
+                aria-hidden="true"
+              />
               <span>{error}</span>
             </p>
           ) : null}
 
           {isEmpty ? (
-            <CartEmpty message={MESSAGES.CART_EMPTY} onBrowse={handleBrowseMenu} />
+            <CartEmpty
+              message={MESSAGES.CART_EMPTY}
+              onBrowse={handleBrowseMenu}
+            />
           ) : (
             <>
-              <ul className={styles.items}>
+              <ul className="items">
                 {items.map((item) => (
                   <li key={item.id}>
-                    <CartItem item={item} onQuantityChange={handleQuantityChange} onRemove={remove} />
+                    <CartItem
+                      item={item}
+                      onQuantityChange={handleQuantityChange}
+                      onRemove={remove}
+                    />
                   </li>
                 ))}
               </ul>
 
-              <h3 className={styles.drawer__subtitle}>Delivery details</h3>
+              <h3 className="drawer__subtitle">Delivery details</h3>
               <OrderForm
                 formId={ORDER_FORM_ID}
                 onSubmit={submitOrder}
@@ -129,23 +159,27 @@ const CartSidebar = () => {
         </div>
 
         {!isEmpty ? (
-          <footer className={styles.drawer__footer}>
-            <div className={styles.summary}>
-              <span className={styles.summary__label}>Subtotal</span>
-              <span className={styles.summary__total}>{formatPrice(totalPrice)}</span>
+          <footer className="drawer__footer">
+            <div className="summary">
+              <span className="summary__label">Subtotal</span>
+              <span className="summary__total">{formatPrice(totalPrice)}</span>
             </div>
 
-            <div className={styles.actions}>
-              <button type="button" className={styles.actions__secondary} onClick={clear}>
+            <div className="actions">
+              <button
+                type="button"
+                className="actions__secondary"
+                onClick={clear}
+              >
                 Clear
               </button>
               <button
                 type="submit"
                 form={ORDER_FORM_ID}
-                className={styles.actions__primary}
+                className="actions__primary"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'Placing order…' : 'Place order'}
+                {isSubmitting ? "Placing order…" : "Place order"}
               </button>
             </div>
           </footer>

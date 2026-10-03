@@ -21,7 +21,7 @@ import { useAppDispatch, useAppSelector } from './hooks';
  * children (MenuCard, CartItem) from re-rendering on unrelated state changes.
  */
 
-type CartItem = {
+export type CartItem = {
   id: string;
   name: string;
   price: number;

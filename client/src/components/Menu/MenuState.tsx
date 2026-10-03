@@ -1,5 +1,3 @@
-import styles from './Menu.module.scss';
-
 interface MenuStateProps {
   /** Decorative emoji shown above the message. */
   icon: string;
@@ -13,15 +11,21 @@ interface MenuStateProps {
 /**
  * Shared presentation for the menu's loading, error and empty states.
  */
-const MenuState = ({ icon, title, text = '', actionLabel = '', onAction = undefined }: MenuStateProps) => (
-  <div className={styles.state} role="status">
-    <span className={styles.state__icon} aria-hidden="true">
+const MenuState = ({
+  icon,
+  title,
+  text = "",
+  actionLabel = "",
+  onAction = undefined,
+}: MenuStateProps) => (
+  <div className="state" role="status">
+    <span className="state__icon" aria-hidden="true">
       {icon}
     </span>
-    <p className={styles.state__title}>{title}</p>
-    {text ? <p className={styles.state__text}>{text}</p> : null}
+    <p className="state__title">{title}</p>
+    {text ? <p className="state__text">{text}</p> : null}
     {actionLabel && onAction ? (
-      <button type="button" className={styles.state__action} onClick={onAction}>
+      <button type="button" className="state__action" onClick={onAction}>
         {actionLabel}
       </button>
     ) : null}

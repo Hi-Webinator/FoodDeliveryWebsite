@@ -1,0 +1,264 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+@include pop-keyframes;
+
+// --- Bar --------------------------------------------------------------------
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: $z-navbar;
+  border-bottom: $border-width solid transparent;
+  background-color: $color-glass;
+  backdrop-filter: saturate(180%) blur($blur-glass);
+  -webkit-backdrop-filter: saturate(180%) blur($blur-glass);
+  transition:
+    box-shadow $transition-base,
+    border-color $transition-base,
+    background-color $transition-base;
+}
+
+.navbar--scrolled {
+  border-bottom-color: $color-border;
+  background-color: rgba($color-surface, 0.9);
+  box-shadow: $shadow-md;
+}
+
+.navbar__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+  min-height: $navbar-height;
+}
+
+.navbar__brand {
+  @include reset-button;
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  border-radius: $radius-sm;
+  @include focus-ring;
+
+  &:hover .navbar__logo {
+    transform: rotate(-12deg);
+  }
+}
+
+.navbar__logo {
+  width: $size-logo;
+  height: $size-logo;
+  object-fit: contain;
+  transition: transform $transition-base;
+}
+
+.navbar__wordmark {
+  color: $color-ink;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-extrabold;
+  letter-spacing: $letter-spacing-tight;
+}
+
+// --- Collapsible menu (mobile panel, inline row on desktop) -----------------
+.navbar__menu {
+  position: absolute;
+  top: calc(100% + #{$space-2});
+  right: calc(var(--bs-gutter-x, #{$space-6}) * 0.5);
+  left: calc(var(--bs-gutter-x, #{$space-6}) * 0.5);
+  @include stack($space-4);
+  padding: $space-4;
+  border: $border-width solid $color-border;
+  border-radius: $radius-lg;
+  background-color: $color-surface;
+  box-shadow: $shadow-xl;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-$space-2) scale(0.98);
+  transform-origin: top center;
+  transition:
+    opacity $transition-base,
+    transform $transition-base,
+    visibility 0s linear $duration-base;
+
+  @include respond-to('lg') {
+    // The menu's children join the bar's flex row so cart + CTA can reorder.
+    // `visibility` is inherited even through display: contents, so reset it.
+    display: contents;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+}
+
+.navbar__menu--open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity $transition-base,
+    transform $transition-base,
+    visibility 0s;
+}
+
+.navbar__cta {
+  width: 100%;
+
+  @include respond-to('lg') {
+    order: 3;
+    width: auto;
+  }
+}
+
+.navbar__tools {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  margin-left: auto;
+
+  @include respond-to('lg') {
+    order: 2;
+    margin-left: 0;
+  }
+}
+
+// --- Links ------------------------------------------------------------------
+.links {
+  @include stack($space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include respond-to('lg') {
+    flex-direction: row;
+    gap: $space-2;
+    order: 1;
+    margin: 0 auto;
+  }
+}
+
+.link {
+  @include reset-button;
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: $space-3 $space-4;
+  border-radius: $radius-sm;
+  color: $color-text-muted;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  text-align: left;
+  text-transform: capitalize;
+  transition:
+    color $transition-fast,
+    background-color $transition-fast;
+  @include focus-ring;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: $space-1;
+    left: 50%;
+    width: $space-1 + $space-0-5;
+    height: $space-1 + $space-0-5;
+    border-radius: $radius-circle;
+    background-color: $color-primary;
+    opacity: 0;
+    transform: translateX(-50%) scale(0);
+    transition:
+      opacity $transition-fast,
+      transform $transition-base;
+  }
+
+  &:hover {
+    background-color: $color-surface-alt;
+    color: $color-ink;
+  }
+
+  @include respond-to('lg') {
+    width: auto;
+    padding: $space-2 $space-3;
+    font-size: $font-size-sm;
+    text-align: center;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}
+
+.link--active {
+  background-color: $color-primary-50;
+  color: $color-primary-dark;
+
+  @include respond-to('lg') {
+    background-color: transparent;
+
+    &::after {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+  }
+}
+
+// --- Cart -------------------------------------------------------------------
+.cart {
+  @include icon-button($size-icon-lg, $color-surface, $color-ink);
+  position: relative;
+  border: $border-width solid $color-border;
+  font-size: $font-size-lg;
+}
+
+.cart__badge {
+  position: absolute;
+  top: -$space-1;
+  right: -$space-1;
+  min-width: $space-5;
+  height: $space-5;
+  padding: 0 $space-1;
+  border: $border-width-thick solid $color-surface;
+  border-radius: $radius-full;
+  background-color: $color-primary;
+  color: $color-white;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  line-height: calc(#{$space-5} - #{$border-width-thick * 2});
+  text-align: center;
+  animation: pop $duration-slow $ease-spring;
+}
+
+// --- Hamburger --------------------------------------------------------------
+.toggler {
+  @include icon-button($size-icon-lg, $color-surface, $color-ink);
+  flex-direction: column;
+  gap: $space-1;
+  border: $border-width solid $color-border;
+
+  @include respond-to('lg') {
+    display: none;
+  }
+}
+
+.toggler__bar {
+  display: block;
+  width: $space-5;
+  height: $border-width-thick;
+  border-radius: $radius-full;
+  background-color: currentColor;
+  transition:
+    transform $transition-base,
+    opacity $transition-fast;
+}
+
+.toggler--open {
+  .toggler__bar:nth-child(1) {
+    transform: translateY(calc(#{$space-1} + #{$border-width-thick})) rotate(45deg);
+  }
+
+  .toggler__bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .toggler__bar:nth-child(3) {
+    transform: translateY(calc(-1 * (#{$space-1} + #{$border-width-thick}))) rotate(-45deg);
+  }
+}

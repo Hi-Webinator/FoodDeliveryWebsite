@@ -6,7 +6,6 @@ const { MENU_CATEGORIES, LIMITS } = require('../config/constants');
 
 const URL_PATTERN = /^https?:\/\/.+/i;
 
-// TS: `interface IMenuItem extends Document { ... }` then `new Schema<IMenuItem>({...})`
 const menuItemSchema = new mongoose.Schema(
   {
     name: {

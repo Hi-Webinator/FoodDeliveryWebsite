@@ -4,8 +4,6 @@ const mongoose = require('mongoose');
 
 /**
  * Opens the single shared Mongoose connection.
- *
- * TS: `(uri: string) => Promise<typeof mongoose>`
  */
 const connectDatabase = async (uri) => {
   if (!uri) {

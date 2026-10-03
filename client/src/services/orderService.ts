@@ -1,4 +1,4 @@
-import type { Order } from '../store/types';
+import type { ApiEnvelope, Order } from '../store/types';
 import api from './api';
 
 export type CreateOrderPayload = {
@@ -16,5 +16,6 @@ export type CreateOrderResult = {
 
 /** Places an order. */
 export const createOrder = async (payload: CreateOrderPayload): Promise<CreateOrderResult> => {
-  return api.post<CreateOrderResult>('/orders', payload);
+  const response = await api.post<ApiEnvelope<Order> & { token: string }>('/orders', payload);
+  return { order: response.data, token: response.token };
 };

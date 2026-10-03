@@ -1,28 +1,33 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from "react";
 
-import SectionHeading from '../shared/SectionHeading';
-import CategoryShowcase from './CategoryShowcase';
-import MenuFilters from './MenuFilters';
-import MenuGrid from './MenuGrid';
-import MenuState from './MenuState';
-import MenuCardSkeleton from '../MenuCard/MenuCardSkeleton';
-import { useMenu } from '../../hooks/useMenu';
-import { useCart } from '../../hooks/useCart';
-import { ALL_CATEGORIES } from '../../constants/categories';
-import { MESSAGES, SECTION_IDS } from '../../constants/config';
-import type { MenuItem } from '../../store/types';
-import styles from './Menu.module.scss';
+import SectionHeading from "../shared/SectionHeading";
+import CategoryShowcase from "./CategoryShowcase";
+import MenuFilters from "./MenuFilters";
+import MenuGrid from "./MenuGrid";
+import MenuState from "./MenuState";
+import MenuCardSkeleton from "../MenuCard/MenuCardSkeleton";
+import { useMenu } from "../../hooks/useMenu";
+import { useCart } from "../../hooks/useCart";
+import { ALL_CATEGORIES } from "../../constants/categories";
+import { MESSAGES, SECTION_IDS } from "../../constants/config";
+import type { MenuItem } from "../../store/types";
 
 const SKELETON_COUNT = 6;
 
 /**
  * The menu section: category showcase, filter chips and the dish grid.
  * All data lives in useMenu; all cart writes go through useCart.
- *
- * TS: this component takes no props — no interface needed.
  */
 const Menu = () => {
-  const { items, isLoading, error, isFallback, category, setCategory, refetch } = useMenu();
+  const {
+    items,
+    isLoading,
+    error,
+    isFallback,
+    category,
+    setCategory,
+    refetch,
+  } = useMenu();
   const { items: cartItems, add, open } = useCart();
 
   /** id -> quantity, built once per cart change so each card is O(1) to look up. */
@@ -42,7 +47,7 @@ const Menu = () => {
   const renderBody = () => {
     if (isLoading) {
       return (
-        <div className={styles.grid} aria-busy="true" aria-label="Loading menu">
+        <div className="grid" aria-busy="true" aria-label="Loading menu">
           {Array.from({ length: SKELETON_COUNT }, (_, index) => (
             <MenuCardSkeleton key={index} />
           ))}
@@ -67,23 +72,30 @@ const Menu = () => {
       return (
         <MenuState
           icon="🍽️"
-          title={category === ALL_CATEGORIES ? MESSAGES.MENU_EMPTY : MESSAGES.MENU_EMPTY_FILTERED}
+          title={
+            category === ALL_CATEGORIES
+              ? MESSAGES.MENU_EMPTY
+              : MESSAGES.MENU_EMPTY_FILTERED
+          }
           text={
             category === ALL_CATEGORIES
-              ? ''
-              : 'Pick a different category to see what else is cooking.'
+              ? ""
+              : "Pick a different category to see what else is cooking."
           }
-          actionLabel={category === ALL_CATEGORIES ? '' : 'Show everything'}
-          onAction={category === ALL_CATEGORIES ? undefined : () => setCategory(ALL_CATEGORIES)}
+          actionLabel={category === ALL_CATEGORIES ? "" : "Show everything"}
+          onAction={
+            category === ALL_CATEGORIES
+              ? undefined
+              : () => setCategory(ALL_CATEGORIES)
+          }
         />
       );
     }
-
     return <MenuGrid items={items} quantities={quantities} onAdd={handleAdd} />;
   };
 
   return (
-    <section id={SECTION_IDS.MENU} className={styles.menu}>
+    <section id={SECTION_IDS.MENU} className="menu">
       <div className="container">
         <SectionHeading
           eyebrow="Our menu"
@@ -96,7 +108,7 @@ const Menu = () => {
         <CategoryShowcase />
 
         {/* Fallback data is a degraded state, not a failure — say so quietly. */}
-        {isFallback ? <p className={styles.notice}>{MESSAGES.MENU_ERROR}</p> : null}
+        {isFallback ? <p className="notice">{MESSAGES.MENU_ERROR}</p> : null}
 
         <MenuFilters active={category} onChange={setCategory} />
 

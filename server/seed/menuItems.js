@@ -3,8 +3,6 @@
 /**
  * Ten dishes spread across every category, so each filter chip on the client
  * has something to show.
- *
- * TS: `const MENU_SEED: Array<Omit<MenuItem, 'id' | 'createdAt' | 'updatedAt'>>`
  */
 const MENU_SEED = [
   {
