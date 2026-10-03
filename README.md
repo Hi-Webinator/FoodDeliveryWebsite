@@ -343,30 +343,40 @@ and `col-lg-*` classes never disagree.
 ## ☁️ Deployment
 
 The client is a static Vite build (Vercel); the API is a long-running Express
-process (Render); the data lives in MongoDB Atlas.
+process (Railway); the data lives in MongoDB Atlas.
+
+**Live demo:** https://food-delivery-website-umber-omega.vercel.app
 
 ### 1. Database — MongoDB Atlas
 
 1. Create a free **M0** cluster and a database user.
-2. *Network Access* → allow `0.0.0.0/0` (Render's outbound IPs are not fixed).
+2. *Network Access* → allow `0.0.0.0/0` (Railway's outbound IPs are not fixed).
 3. Copy the connection string and seed it once from your machine:
 
    ```bash
    MONGODB_URI="mongodb+srv://<user>:<pass>@<cluster>/food-delivery" npm run seed
    ```
 
-### 2. API — Render
+   Without seeding, the menu is empty and orders are rejected (the client
+   falls back to a sample menu whose ids the API does not accept).
 
-`render.yaml` is a Blueprint: *New → Blueprint* and point it at this repo. Then fill
-in the two values it cannot generate:
+### 2. API — Railway
+
+*New Project → Deploy from GitHub repo*, then set **Root Directory: `server`**.
+Add these variables:
 
 | Key | Value |
 |---|---|
+| `NODE_ENV` | `production` |
 | `MONGODB_URI` | the Atlas connection string |
 | `CLIENT_URL` | your Vercel URL, no trailing slash (set after step 3) |
+| `API_KEY_ADMIN` | a long random string |
+| `JWT_SECRET` | a long random string |
 
-`API_KEY_ADMIN` and `JWT_SECRET` are generated for you. Check
-`https://<service>.onrender.com/health` returns `ok`.
+Generate a public domain under *Settings → Networking* and check
+`https://<service>.up.railway.app/health` returns `ok`.
+
+> Prefer Render? `render.yaml` is a Blueprint that deploys the same API.
 
 ### 3. Client — Vercel
 
@@ -375,14 +385,11 @@ environment variable:
 
 | Key | Value |
 |---|---|
-| `VITE_API_BASE_URL` | `https://<service>.onrender.com/api` |
+| `VITE_API_BASE_URL` | `https://<service>.up.railway.app/api` |
 
-Then copy the production URL back into Render's `CLIENT_URL`, or CORS will block
+Then copy the production URL back into Railway's `CLIENT_URL`, or CORS will block
 every API call. `VITE_*` values are baked in at build time, so redeploy after
 changing them.
-
-> Render's free tier sleeps when idle, so the first request can take up to a
-> minute. The client falls back to the sample menu in the meantime.
 
 ---
 
