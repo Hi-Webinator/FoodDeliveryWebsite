@@ -25,7 +25,7 @@ const start = async () => {
 
   const port = Number(process.env.PORT) || 5000;
   const server = createApp().listen(port, () => {
-    console.log(`[server] listening on http://localhost:${port} (${process.env.NODE_ENV})`);
+    console.log(`[server] listening on port:${port} (${process.env.NODE_ENV})`);
   });
 
   let shuttingDown = false;
