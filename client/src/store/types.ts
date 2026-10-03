@@ -19,6 +19,14 @@ export type ValidationIssue = {
   [key: string]: unknown;
 }
 
+/** Every `/api/*` endpoint wraps its payload in this envelope. */
+export type ApiEnvelope<T> = {
+  success: boolean;
+  data: T;
+  message?: string;
+  count?: number;
+};
+
 export type OrderItem = {
   menuItemId: string;
   name: string;

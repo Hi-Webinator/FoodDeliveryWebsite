@@ -10,7 +10,6 @@ import TESTIMONIALS from './testimonialsData';
 import { SECTION_IDS } from '../../constants/config';
 
 import 'swiper/css';
-import styles from './Testimonials.module.scss';
 
 // Slides per view at Bootstrap's md / lg breakpoints.
 const SWIPER_BREAKPOINTS = {
@@ -27,7 +26,7 @@ const Testimonials = () => {
   const [nextEl, setNextEl] = useState<HTMLButtonElement | null>(null);
 
   return (
-    <section id={SECTION_IDS.TESTIMONIALS} className={styles.section}>
+    <section id={SECTION_IDS.TESTIMONIALS} className="section">
       <div className="container">
         <SectionHeading
           eyebrow="Reviews"
@@ -42,20 +41,20 @@ const Testimonials = () => {
           slidesPerView={1}
           spaceBetween={16}
           breakpoints={SWIPER_BREAKPOINTS}
-          className={styles.slider}
+          className="slider"
         >
           {TESTIMONIALS.map(({ id, quote, author, role }) => (
-            <SwiperSlide key={id} className={styles.slide}>
+            <SwiperSlide key={id} className="slide">
               <TestimonialCard quote={quote} author={author} role={role} />
             </SwiperSlide>
           ))}
         </Swiper>
 
-        <div className={styles.controls}>
+        <div className="controls">
           <button
             ref={setPrevEl}
             type="button"
-            className={styles.controls__button}
+            className="controls__button"
             aria-label="Previous review"
           >
             <FontAwesomeIcon icon={faChevronLeft} aria-hidden="true" />
@@ -63,7 +62,7 @@ const Testimonials = () => {
           <button
             ref={setNextEl}
             type="button"
-            className={styles.controls__button}
+            className="controls__button"
             aria-label="Next review"
           >
             <FontAwesomeIcon icon={faChevronRight} aria-hidden="true" />

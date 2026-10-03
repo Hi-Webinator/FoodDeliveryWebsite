@@ -1,8 +1,5 @@
 'use strict';
 
-// TS: convert these to `as const` objects + derived union types
-// e.g. `export type MenuCategory = (typeof MENU_CATEGORIES)[number];`
-
 /** Categories a menu item may belong to. Mirrored in client/src/constants. */
 const MENU_CATEGORIES = ['burger', 'pizza', 'sushi', 'drinks', 'dessert'];
 

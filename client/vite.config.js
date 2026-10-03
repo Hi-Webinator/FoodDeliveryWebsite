@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// TS: rename to vite.config.ts and type the config with `UserConfig`
 export default defineConfig({
   plugins: [react()],
   server: {

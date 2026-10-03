@@ -1,4 +1,5 @@
 import { CART_STORAGE_KEY } from '../constants/config';
+import type { CartItem } from '../hooks/useCart';
 
 /**
  * localStorage throws in private-browsing modes and when site data is blocked,
@@ -21,17 +22,8 @@ const writeJson = (key: string, value: unknown): void => {
   }
 };
 
-type CartItem = {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-  quantity: number;
-};
-
 /** Shape guard: stale or hand-edited data must never crash the store. */
-// TS: `(value: unknown) => value is CartItem[]`
-const isValidCartItems = (value: unknown): boolean =>
+const isValidCartItems = (value: unknown): value is CartItem[] =>
   Array.isArray(value) &&
   value.every(
     (item) =>
@@ -42,13 +34,11 @@ const isValidCartItems = (value: unknown): boolean =>
       Number.isInteger(item.quantity),
   );
 
-// TS: `() => CartItem[]`
 export const loadCartItems = (): CartItem[] => {
-  const stored = readJson(CART_STORAGE_KEY, null);
+  const stored = readJson<unknown>(CART_STORAGE_KEY, []);
   return isValidCartItems(stored) ? stored : [];
 };
 
-// TS: `(items: CartItem[]) => void`
 export const saveCartItems = (items: CartItem[]): void => writeJson(CART_STORAGE_KEY, items);
 
 export const clearStoredCart = (): void => {

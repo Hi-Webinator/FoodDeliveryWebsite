@@ -45,7 +45,6 @@ const normalize = (error) => {
 };
 
 /** 404 catch-all — mounted after every route so unknown paths land here. */
-// TS: `RequestHandler`
 const notFoundHandler = (req, _res, next) => {
   next(new AppError(`Route ${req.method} ${req.originalUrl} not found.`, HTTP_STATUS.NOT_FOUND));
 };
@@ -53,8 +52,6 @@ const notFoundHandler = (req, _res, next) => {
 /**
  * Central error handler. Must be the last `app.use`, and must keep all four
  * parameters or Express will not recognise it as an error handler.
- *
- * TS: `ErrorRequestHandler`
  */
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, _next) => {
@@ -68,7 +65,6 @@ const errorHandler = (err, req, res, _next) => {
     console.error('[error]', err);
   }
 
-  // TS: type this as `ApiErrorResponse`
   const body = {
     success: false,
     message: isOperational || !isProduction ? error.message : GENERIC_MESSAGE,

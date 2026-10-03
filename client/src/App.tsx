@@ -10,8 +10,6 @@ import CartSidebar from './components/Cart/CartSidebar';
 /**
  * The single page, in section order. The cart drawer sits outside the flow
  * because it overlays everything.
- *
- * TS: this component takes no props — no interface needed.
  */
 const App = () => (
   <>

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import './_footerLinkList.scss';
 
 interface FooterLinkListProps {
   /** Column heading. */

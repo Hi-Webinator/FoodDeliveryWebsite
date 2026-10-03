@@ -1,8 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
-import "./_btn.scss";
-
 export type Variant = "primary" | "dark" | "light";
 type Size = "sm" | "md" | "lg";
 

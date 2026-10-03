@@ -22,7 +22,6 @@ const findAvailable = (filter = {}) =>
  * GET /api/menu
  * Every available menu item.
  */
-// TS: type the handler as `RequestHandler<unknown, ApiResponse<MenuItem[]>>`
 router.get(
   '/',
   catchAsync(async (_req, res) => {
@@ -40,7 +39,6 @@ router.get(
  * GET /api/menu/:category
  * Available menu items in one validated category.
  */
-// TS: `RequestHandler<{ category: MenuCategory }, ApiResponse<MenuItem[]>>`
 router.get(
   '/:category',
   categoryParamRules,

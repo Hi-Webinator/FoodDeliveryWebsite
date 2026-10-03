@@ -3,8 +3,7 @@
 A full-stack, single-page food delivery site: browse a menu, filter by category,
 build a cart that survives a refresh, and place an order against a real REST API.
 
-Written in **plain JavaScript** and deliberately structured for a later
-TypeScript migration — every migration point is marked with a `// TS:` comment.
+Written in **plain JavaScript**.
 
 | | |
 |---|---|
@@ -325,58 +324,6 @@ source of truth. Nothing outside that file hardcodes a color.
 
 Media queries are **mobile-first** and share Bootstrap's breakpoints, so SCSS
 and `col-lg-*` classes never disagree.
-
----
-
-## 🟦 TypeScript migration guide
-
-Every place needing a type is already marked with a `// TS:` comment:
-
-```bash
-grep -rn "// TS:" client/src server --include="*.js" --include="*.jsx"
-```
-
-### Setup
-
-```bash
-cd client
-npm i -D typescript @types/react @types/react-dom @types/node
-npx tsc --init
-```
-
-Enable `"strict": true`, `"jsx": "react-jsx"`, and `"allowJs": true` so you can
-migrate file by file rather than all at once.
-
-### Suggested order
-
-Work bottom-up — types flow from data toward UI, so each step builds on the last.
-
-| # | Files | Why here |
-|---|---|---|
-| 1 | `constants/config.ts`, `constants/categories.ts` | No dependencies. Add `as const` and derive `MenuCategory` from the array. |
-| 2 | `types/index.ts` *(new)* | Declare `MenuItem`, `CartItem`, `Order`, `OrderItem`, `ApiResponse<T>`, `ValidationIssue`. Everything below imports from here. |
-| 3 | `utils/*.ts` | Pure functions, trivial signatures, immediate payoff. |
-| 4 | `services/api.ts`, `menuService.ts`, `orderService.ts` | Type the axios instance and give each call a return type. Note the response interceptor returns `response.data`, so declare that unwrapping explicitly. |
-| 5 | `features/cart/cartSlice.ts` | Type `CartState` and each `PayloadAction<T>`. RTK infers the rest. |
-| 6 | `store/store.ts` | Export `RootState` / `AppDispatch`, then add typed `useAppSelector` / `useAppDispatch` hooks and use them everywhere instead of the raw ones. |
-| 7 | `hooks/*.ts` | Type each hook's return object — these are your widest contracts. |
-| 8 | `components/**/*.tsx` | Convert `propTypes` blocks into `interface XProps`. Leaves first (`Btn`, `Box`, `MenuCard`, `CartItem`), containers last. |
-| 9 | `vite.config.ts`, `vite-env.d.ts` | Add an `ImportMetaEnv` interface so `import.meta.env.VITE_*` is typed. |
-
-### Server (optional, second pass)
-
-`config/constants.ts` → `utils` → `models` (`Schema<IMenuItem>`) → `middleware`
-→ `validators` → `routes` (`RequestHandler<Params, ResBody, ReqBody>`) → `app.ts`.
-Add `@types/express`, `@types/cors`, `@types/morgan`, `@types/jsonwebtoken`.
-
-### Notes
-
-- **Delete `propTypes` as you convert each component** — keeping both means two
-  sources of truth that will drift.
-- The `id` on every API object is a `string` (Mongo `ObjectId` serialised), not
-  a number. `mockMenu.js` already uses string ids to match.
-- `useOrder` returns several booleans; once you have types, consider modelling it
-  as `{ status: 'idle' | 'submitting' | 'error' | 'success' }` instead.
 
 ---
 

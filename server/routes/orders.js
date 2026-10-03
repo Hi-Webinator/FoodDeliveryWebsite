@@ -54,7 +54,6 @@ const signOrderToken = (orderId) =>
  * POST /api/orders
  * Places an order. Rate limited, fully validated, and re-priced server-side.
  */
-// TS: `RequestHandler<unknown, ApiResponse<Order>, CreateOrderPayload>`
 router.post(
   '/',
   createOrderLimiter,
@@ -97,7 +96,6 @@ router.post(
  * GET /api/orders
  * Admin-only listing, newest first. Requires the `x-api-key` header.
  */
-// TS: `RequestHandler<unknown, ApiResponse<Order[]>, unknown, OrderListQuery>`
 router.get(
   '/',
   adminAuth,

@@ -2,13 +2,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 import Btn from '../shared/Btn';
-import './_newsletter.scss';
 
 /**
  * Newsletter sign-up band above the footer.
  * Presentational only — there is no subscribe endpoint in this MVP.
- *
- * TS: this component takes no props — no interface needed.
  */
 const Newsletter = () => (
   <div className="newsletter">

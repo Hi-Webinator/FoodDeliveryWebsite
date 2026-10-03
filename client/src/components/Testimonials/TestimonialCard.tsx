@@ -1,9 +1,7 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuoteLeft, faStar } from '@fortawesome/free-solid-svg-icons';
-import { faStar as faStarEmpty } from '@fortawesome/free-regular-svg-icons';
-
-import styles from './TestimonialCard.module.scss';
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faQuoteLeft, faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar as faStarEmpty } from "@fortawesome/free-regular-svg-icons";
 
 const MAX_RATING = 5;
 
@@ -14,7 +12,7 @@ const initialsOf = (name: string): string =>
     .filter(Boolean)
     .slice(0, 2)
     .map((part) => part[0].toUpperCase())
-    .join('');
+    .join("");
 
 interface TestimonialCardProps {
   quote: string;
@@ -25,31 +23,44 @@ interface TestimonialCardProps {
   rating?: number;
 }
 
-const TestimonialCard = ({ quote, author, role, rating = MAX_RATING }: TestimonialCardProps) => (
-  <figure className={styles.card}>
-    <div className={styles.card__top}>
-      <div className={styles.stars} role="img" aria-label={`Rated ${rating} out of ${MAX_RATING}`}>
+const TestimonialCard = ({
+  quote,
+  author,
+  role,
+  rating = MAX_RATING,
+}: TestimonialCardProps) => (
+  <figure className="card">
+    <div className="card__top">
+      <div
+        className="stars"
+        role="img"
+        aria-label={`Rated ${rating} out of ${MAX_RATING}`}
+      >
         {Array.from({ length: MAX_RATING }, (_, index) => (
           <FontAwesomeIcon
             key={index}
             icon={index < rating ? faStar : faStarEmpty}
-            className={index < rating ? styles.stars__filled : styles.stars__empty}
+            className={index < rating ? "stars__filled" : " stars__empty"}
             aria-hidden="true"
           />
         ))}
       </div>
-      <FontAwesomeIcon icon={faQuoteLeft} className={styles.card__quoteIcon} aria-hidden="true" />
+      <FontAwesomeIcon
+        icon={faQuoteLeft}
+        className="card__quoteIcon"
+        aria-hidden="true"
+      />
     </div>
 
-    <blockquote className={styles.card__quote}>{quote}</blockquote>
+    <blockquote className="card__quote">{quote}</blockquote>
 
-    <figcaption className={styles.author}>
-      <span className={styles.author__avatar} aria-hidden="true">
+    <figcaption className="author">
+      <span className="author__avatar" aria-hidden="true">
         {initialsOf(author)}
       </span>
-      <span className={styles.author__meta}>
-        <span className={styles.author__name}>{author}</span>
-        <span className={styles.author__role}>{role}</span>
+      <span className="author__meta">
+        <span className="author__name">{author}</span>
+        <span className="author__role">{role}</span>
       </span>
     </figcaption>
   </figure>

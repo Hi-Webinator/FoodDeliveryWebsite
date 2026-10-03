@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 
 const { ORDER_STATUSES, DEFAULT_ORDER_STATUS, LIMITS, PHONE_PATTERN } = require('../config/constants');
 
-// TS: `interface IOrderItem { menuItemId: Types.ObjectId; name: string; price: number; quantity: number }`
 const orderItemSchema = new mongoose.Schema(
   {
     menuItemId: {
@@ -32,7 +31,6 @@ const orderItemSchema = new mongoose.Schema(
   { _id: false },
 );
 
-// TS: `interface IOrder extends Document { ... }` then `new Schema<IOrder>({...})`
 const orderSchema = new mongoose.Schema(
   {
     items: {

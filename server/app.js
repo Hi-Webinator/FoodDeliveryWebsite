@@ -14,8 +14,6 @@ const { LIMITS, HTTP_STATUS } = require('./config/constants');
 /**
  * Builds the Express app. Kept separate from server.js so the whole stack can
  * be mounted in a test without binding a port.
- *
- * TS: `() => Express`
  */
 const createApp = () => {
   const app = express();

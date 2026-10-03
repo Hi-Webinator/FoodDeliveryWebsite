@@ -22,8 +22,6 @@ const isSameSecret = (a, b) => {
 /**
  * Guards admin-only routes with a shared secret sent in `x-api-key`.
  * This is deliberately minimal — swap it for the JWT flow when real auth lands.
- *
- * TS: `RequestHandler`
  */
 const adminAuth = (req, _res, next) => {
   const expected = process.env.API_KEY_ADMIN;

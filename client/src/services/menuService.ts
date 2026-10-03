@@ -1,10 +1,10 @@
 import api from './api';
-import type { MenuItem } from '../store/types';
+import type { ApiEnvelope, MenuItem } from '../store/types';
 import { ALL_CATEGORIES, MenuCategory } from '../constants/categories';
 
 export const fetchMenu = async (): Promise<MenuItem[]> => {
-  const menu = await api.get<MenuItem[]>('/menu');
-  return menu ?? [];
+  const response = await api.get<ApiEnvelope<MenuItem[]>>('/menu');
+  return response.data ?? [];
 };
 
 export const fetchMenuByCategory = async (category: MenuCategory | 'all'): Promise<MenuItem[]> => {
@@ -12,6 +12,6 @@ export const fetchMenuByCategory = async (category: MenuCategory | 'all'): Promi
     return fetchMenu();
   }
 
-  const menu = await api.get<MenuItem[]>(`/menu/${encodeURIComponent(category)}`);
-  return menu ?? [];
+  const response = await api.get<ApiEnvelope<MenuItem[]>>(`/menu/${encodeURIComponent(category)}`);
+  return response.data ?? [];
 };
