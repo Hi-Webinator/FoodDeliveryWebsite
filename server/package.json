@@ -2,6 +2,7 @@
   "name": "food-delivery-server",
   "version": "1.0.0",
   "private": true,
+  "engines": { "node": ">=18" },
   "description": "Express + MongoDB REST API for the Food Delivery MVP",
   "main": "server.js",
   "type": "commonjs",

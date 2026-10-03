@@ -63,7 +63,7 @@ npm run client           # http://localhost:5173
 Vite proxies `/api` to port 5000, so there are no CORS surprises in development.
 
 > **The client works without the API.** If `GET /api/menu` fails, the menu falls
-> back to `client/src/data/mockMenu.js` and shows a quiet notice — the page is
+> back to `client/src/data/mockMenu.ts` and shows a quiet notice — the page is
 > never blank in a portfolio demo.
 
 ---
@@ -340,6 +340,52 @@ and `col-lg-*` classes never disagree.
 
 ---
 
+## ☁️ Deployment
+
+The client is a static Vite build (Vercel); the API is a long-running Express
+process (Render); the data lives in MongoDB Atlas.
+
+### 1. Database — MongoDB Atlas
+
+1. Create a free **M0** cluster and a database user.
+2. *Network Access* → allow `0.0.0.0/0` (Render's outbound IPs are not fixed).
+3. Copy the connection string and seed it once from your machine:
+
+   ```bash
+   MONGODB_URI="mongodb+srv://<user>:<pass>@<cluster>/food-delivery" npm run seed
+   ```
+
+### 2. API — Render
+
+`render.yaml` is a Blueprint: *New → Blueprint* and point it at this repo. Then fill
+in the two values it cannot generate:
+
+| Key | Value |
+|---|---|
+| `MONGODB_URI` | the Atlas connection string |
+| `CLIENT_URL` | your Vercel URL, no trailing slash (set after step 3) |
+
+`API_KEY_ADMIN` and `JWT_SECRET` are generated for you. Check
+`https://<service>.onrender.com/health` returns `ok`.
+
+### 3. Client — Vercel
+
+*Add New Project* → import the repo → **Root Directory: `client`**. Add one
+environment variable:
+
+| Key | Value |
+|---|---|
+| `VITE_API_BASE_URL` | `https://<service>.onrender.com/api` |
+
+Then copy the production URL back into Render's `CLIENT_URL`, or CORS will block
+every API call. `VITE_*` values are baked in at build time, so redeploy after
+changing them.
+
+> Render's free tier sleeps when idle, so the first request can take up to a
+> minute. The client falls back to the sample menu in the meantime.
+
+---
+
 ## 📄 License
 
-MIT — a portfolio project, free to learn from.
+MIT — see [LICENSE](LICENSE). A portfolio project, free to learn from.
