@@ -342,4 +342,4 @@ and `col-lg-*` classes never disagree.
 
 ## 📄 License
 
-MIT — a portfolio project, free to learn from.
+MIT — see [LICENSE](LICENSE). A portfolio project, free to learn from.
