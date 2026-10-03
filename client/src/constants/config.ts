@@ -1,5 +1,16 @@
+/**
+ * Tolerates a host pasted without a scheme (which the browser would treat as a
+ * relative path) and without the `/api` prefix the server mounts routes under.
+ */
+const normalizeBaseUrl = (raw: string): string => {
+  const trimmed = raw.trim().replace(/\/+$/, '');
+  if (trimmed.startsWith('/')) return trimmed;
+  const url = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+  return new URL(url).pathname === '/' ? `${url}/api` : url;
+};
+
 /** API base URL. Vite inlines `import.meta.env` at build time. */
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api';
+export const API_BASE_URL = normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL || '/api');
 
 export const API_TIMEOUT_MS = Number(import.meta.env.VITE_API_TIMEOUT) || 10_000;
 
